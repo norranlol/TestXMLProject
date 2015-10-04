@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE flights SYSTEM "E:/Idea Projects/TestXMLProject/config/dtd/airport.dtd">
+<flights>
+    <flight flightCertificates="A3431 F3421">
+        <id>1</id>
+        <timeOfDeparture>2014-09-15 21:30:00</timeOfDeparture>
+        <timeOfArrival>2014-04-16 05:00:00</timeOfArrival>
+        <pilot certificateNumber="F3421" phoneNumber="89034534412" eMail="pupkin.petr@mail.ru"
+               address="г.Владимир ул.Петрозаводская д.14 кв.34">
+            <id>1</id>
+            <surname>Пупкин</surname>
+            <name>Петр</name>
+            <patronymic>Тимофеевич</patronymic>
+            <category>1</category>
+        </pilot>
+        <pilot certificateNumber="A3431" phoneNumber="89243535542" eMail="gubov.dmitry@mail.ru"
+               address="г.Владимир ул.Грибоедова д.24 кв.55">
+            <id>2</id>
+            <surname>Губов</surname>
+            <name>Дмитрий</name>
+            <patronymic>Епархович</patronymic>
+            <category>2</category>
+        </pilot>
+        <plane>
+            <id>1</id>
+            <model>Боинг 777</model>
+            <year>1990</year>
+            <countOfRows>10</countOfRows>
+            <placesInRow>9</placesInRow>
+        </plane>
+        <route>
+            <id>1</id>
+            <title>Москва - Барселона</title>
+            <point image="pointImage1">
+                <id>1</id>
+                <country>Россия</country>
+                <city>Москва</city>
+            </point>
+            <point image="pointImage2">
+                <id>2</id>
+                <country>Испания</country>
+                <city>Барселона</city>
+            </point>
+            <cipher>&routeCipherN1;</cipher>
+            <distance>3200</distance>
+        </route>
+        <ticket position="left">
+            <id>1</id>
+            <row>3</row>
+            <place>4</place>
+            <status>З</status>
+            <price>8800</price>
+            <client pasportSeries="1408" pasportNumber="545423" phoneNumber="834364643636" eMail="petrov.grigory@mail.ru"
+                    address="г.Владимир ул.Диктора Левитана д.3 кв.4">
+                <id>1</id>
+                <surname>Петров</surname>
+                <name>Григорий</name>
+                <patronymic>Васильевич</patronymic>
+            </client>
+        </ticket>
+        <ticket position="right">
+            <id>2</id>
+            <row>5</row>
+            <place>6</place>
+            <price>8700</price>
+            <client pasportSeries="1408" pasportNumber="343241" phoneNumber="89204325533" eMail="andreev.mihail@mail.ru"
+                    address="г.Владимир ул.Печкина д.22 кв.3">
+                <id>2</id>
+                <surname>Андреев</surname>
+                <name>Михаил</name>
+                <patronymic>Андреевич</patronymic>
+            </client>
+        </ticket>
+        <ticket>
+            <id>3</id>
+            <row>6</row>
+            <place>5</place>
+            <status>З</status>
+            <price>10000</price>
+            <anonimousClient isSecured="YES">
+                <companyName>ФСБ</companyName>
+                <employeerId>4</employeerId>
+            </anonimousClient>
+        </ticket>
+    </flight>
+    <flight flightCertificates="K4531">
+        <id>8</id>
+        <timeOfDeparture>2014-05-12 18:00:00</timeOfDeparture>
+        <timeOfArrival>2014-05-12 22:00:00</timeOfArrival>
+        <pilot certificateNumber="K4531" phoneNumber="8932245322" eMail="griboed@mail.ru"
+                address="г.Владимир ул.Безыменского д.14 кв.33">
+            <id>4</id>
+            <surname>Грибоедов</surname>
+            <name>Василий</name>
+            <patronymic>Васильевич</patronymic>
+            <category>1</category>
+        </pilot>
+        <plane>
+            <id>4</id>
+            <model>Боинг 443</model>
+            <year>1920</year>
+            <countOfRows>4</countOfRows>
+            <placesInRow>5</placesInRow>
+        </plane>
+        <route>
+            <id>2</id>
+            <title>Лондон - Берлин</title>
+            <point image="pointImage6">
+                <id>6</id>
+                <country>Англия</country>
+                <city>Лондон</city>
+            </point>
+            <point image="pointImage7">
+                <id>7</id>
+                <country>Германия</country>
+                <city>Берлин</city>
+            </point>
+            <cipher>&routeCipherN2;</cipher>
+            <distance>1200</distance>
+        </route>
+    </flight>
+</flights>

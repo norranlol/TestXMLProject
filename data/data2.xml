@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<flights xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns="http://www.airport.ru"
+              xmlns:tns="http://www.airport.ru"
+              xsi:schemaLocation="http://www.airport.ru ../config/xsd/airport.xsd">
+    <flight>
+        <id>3535</id>
+        <timeOfDeparture>2014-09-15T21:30:00</timeOfDeparture>
+        <timeOfArrival>2014-04-16T05:00:00</timeOfArrival>
+        <pilot>
+            <id>1</id>
+            <surname>Пупкин</surname>
+            <name>Петр</name>
+            <patronymic>Тимофеевич</patronymic>
+            <category>1</category>
+            <certificateNumber>F3421</certificateNumber>
+            <phoneNumber>89034534412</phoneNumber>
+            <eMail>pupkin.petr@mail.ru</eMail>
+            <address>г.Владимир ул.Петрозаводская д.14 кв.34</address>
+        </pilot>
+        <pilot>
+            <id>2</id>
+            <surname>Губов</surname>
+            <name>Дмитрий</name>
+            <patronymic>Епархович</patronymic>
+            <category>2</category>
+            <certificateNumber>A3431</certificateNumber>
+            <phoneNumber>89243535542</phoneNumber>
+            <eMail>gubov.dmitry@mail.ru</eMail>
+            <address>г.Владимир ул.Грибоедова д.24 кв.55</address>
+        </pilot>
+        <plane xsi:type="plane">
+            <id>1</id>
+            <model>A310</model>
+            <year>1995</year>
+            <countOfRows>10</countOfRows>
+            <placesInRow>9</placesInRow>
+        </plane>
+        <route>
+            <id>1</id>
+            <title>Москва - Барселона</title>
+            <pointOfDeparture>
+                <id>1</id>
+                <country>Россия</country>
+                <city>Москва</city>
+            </pointOfDeparture>
+            <pointOfArrival>
+                <id>2</id>
+                <country>Испания</country>
+                <city>Барселона</city>
+            </pointOfArrival>
+            <cipher>D353512GSDGGHFHFN34</cipher>
+            <distance>3200</distance>
+        </route>
+    </flight>
+    <flight>
+        <id>3535</id>
+        <timeOfDeparture>2014-05-12T18:00:00</timeOfDeparture>
+        <timeOfArrival>2014-05-12T22:00:00</timeOfArrival>
+        <pilot>
+            <id>4</id>
+            <surname>Грибоедов</surname>
+            <name>Василий</name>
+            <patronymic>Васильевич</patronymic>
+            <category>1</category>
+            <certificateNumber>K4531</certificateNumber>
+            <phoneNumber>8932245322</phoneNumber>
+            <eMail>griboed@mail.ru</eMail>
+            <address>г.Владимир ул.Безыменского д.14 кв.33</address>
+        </pilot>
+        <plane xsi:type="plane">
+            <id>4</id>
+            <model>A329</model>
+            <year>1993</year>
+            <countOfRows>4</countOfRows>
+            <placesInRow>5</placesInRow>
+        </plane>
+        <route>
+            <id>2</id>
+            <title>Лондон - Берлин</title>
+            <pointOfDeparture>
+                <id>6</id>
+                <country>Англия</country>
+                <city>Лондон</city>
+            </pointOfDeparture>
+            <pointOfArrival>
+                <id>7</id>
+                <country>Германия</country>
+                <city>Берлин</city>
+            </pointOfArrival>
+            <cipher>D353512GSDGGHFHFN34</cipher>
+            <distance>1200</distance>
+        </route>
+    </flight>
+    <ticket flightId="3535">
+        <id>1</id>
+        <row>3</row>
+        <place>4</place>
+        <status>З</status>
+        <price>8800</price>
+        <client>
+            <id>1</id>
+            <surname>Петров</surname>
+            <name>Григорий</name>
+            <patronymic>Васильевич</patronymic>
+        </client>
+    </ticket>
+    <ticket flightId="3534">
+        <id>2</id>
+        <row>5</row>
+        <place>6</place>
+        <price>870</price>
+        <client>
+            <id>2</id>
+            <surname>Андреев</surname>
+            <name>Михаил</name>
+            <patronymic>Андреевич</patronymic>
+        </client>
+    </ticket>
+    <ticket flightId="3534">
+        <id>3</id>
+        <row>6</row>
+        <place>5</place>
+        <status>З</status>
+        <price>10000</price>
+        <anonimousClient>
+            <companyName>ФСБ</companyName>
+            <employeerId>9999</employeerId>
+        </anonimousClient>
+    </ticket>
+</flights>

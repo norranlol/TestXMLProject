@@ -1,0 +1,62 @@
+<!ELEMENT flights (flight+)>
+
+<!ELEMENT flight (id, timeOfDeparture, timeOfArrival, pilot+, plane, route, ticket*)>
+<!ELEMENT timeOfDeparture (#PCDATA)>
+<!ELEMENT timeOfArrival (#PCDATA)>
+<!ATTLIST flight flightCertificates IDREFS #IMPLIED>
+
+<!ELEMENT ticket (id, row, place, status?, price, (client | anonimousClient))>
+<!ELEMENT row (#PCDATA)>
+<!ELEMENT place (#PCDATA)>
+<!ELEMENT status (#PCDATA)>
+<!ELEMENT price (#PCDATA)>
+<!ATTLIST ticket position (left | center | right ) "center">
+
+<!ELEMENT route (id, title, point, point, cipher, distance)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT cipher (#PCDATA)>
+<!ELEMENT distance (#PCDATA)>
+
+<!ELEMENT point (id, country, city)>
+<!ELEMENT country (#PCDATA)>
+<!ELEMENT city (#PCDATA)>
+
+<!ATTLIST point image ENTITY #REQUIRED>
+<!NOTATION jpeg SYSTEM "image/jpeg">
+<!NOTATION png SYSTEM "image/png">
+<!ENTITY pointImage1 SYSTEM "images/point1.jpeg" NDATA jpeg>
+<!ENTITY pointImage2 SYSTEM "images/point2.png" NDATA png>
+<!ENTITY pointImage6 SYSTEM "images/point6.jpeg" NDATA jpeg>
+<!ENTITY pointImage7 SYSTEM "images/point7.png" NDATA png>
+
+<!ELEMENT plane (id, model, year, countOfRows, placesInRow)>
+<!ELEMENT model (#PCDATA)>
+<!ELEMENT year (#PCDATA)>
+<!ELEMENT countOfRows (#PCDATA)>
+<!ELEMENT placesInRow (#PCDATA)>
+
+<!ENTITY % contacts "phoneNumber CDATA #REQUIRED
+             eMail CDATA #REQUIRED
+             address CDATA #REQUIRED">
+<!ENTITY routeCipherN1 "AB734388">
+<!ENTITY routeCipherN2 "CD342214">
+
+<!ELEMENT client (id, surname, name, patronymic)>
+<!ATTLIST client pasportSeries CDATA #REQUIRED
+          pasportNumber CDATA #REQUIRED
+          %contacts;>
+
+<!ELEMENT anonimousClient (companyName, employeerId)>
+<!ELEMENT companyName (#PCDATA)>
+<!ELEMENT employeerId (#PCDATA)>
+<!ATTLIST anonimousClient isSecured CDATA "NO">
+
+<!ELEMENT pilot (id, surname, name, patronymic, category)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT surname (#PCDATA)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT patronymic (#PCDATA)>
+<!ELEMENT category (#PCDATA)>
+
+<!ATTLIST pilot certificateNumber ID #REQUIRED
+          %contacts;>
