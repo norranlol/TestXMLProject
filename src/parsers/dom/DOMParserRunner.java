@@ -7,12 +7,12 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class DOMParserRunner {
 
     private static final String XML_PATH = "data/data1.xml";
+    private static final String HTML_PATH = "output/html/testHTML1.html";
 
     public static void main(String[] args){
         try {
@@ -23,7 +23,8 @@ public class DOMParserRunner {
             ErrorHandler handler = new DOMErrorHandler();
             builder.setErrorHandler(handler);
             Document document = builder.parse(xml);
-            System.out.println("Test");
+            DOMConverter domConverter = new DOMConverter(document, HTML_PATH);
+            domConverter.convertToHTML();
         } catch (ParserConfigurationException e) {
             System.out.println(e.toString());
         } catch (SAXException e) {

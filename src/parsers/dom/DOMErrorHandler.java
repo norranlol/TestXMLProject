@@ -21,7 +21,7 @@ public class DOMErrorHandler implements ErrorHandler {
     @Override
     public void fatalError(SAXParseException e)
             throws SAXException {
-        System.out.println("Fattal error: ");
+        System.out.println("Fatal error: ");
         printInfo(e);
     }
 

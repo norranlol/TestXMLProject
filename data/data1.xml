@@ -3,8 +3,8 @@
 <flights>
     <flight flightCertificates="A3431 F3421">
         <id>1</id>
-        <timeOfDeparture>2014-09-15 21:30:00</timeOfDeparture>
-        <timeOfArrival>2014-04-16 05:00:00</timeOfArrival>
+        <timeOfDeparture>2014-09-15T21:30:00</timeOfDeparture>
+        <timeOfArrival>2014-04-16T05:00:00</timeOfArrival>
         <pilot certificateNumber="F3421" phoneNumber="89034534412" eMail="pupkin.petr@mail.ru"
                address="г.Владимир ул.Петрозаводская д.14 кв.34">
             <id>1</id>
@@ -85,8 +85,8 @@
     </flight>
     <flight flightCertificates="K4531">
         <id>8</id>
-        <timeOfDeparture>2014-05-12 18:00:00</timeOfDeparture>
-        <timeOfArrival>2014-05-12 22:00:00</timeOfArrival>
+        <timeOfDeparture>2014-05-12T18:00:00</timeOfDeparture>
+        <timeOfArrival>2014-05-12T22:00:00</timeOfArrival>
         <pilot certificateNumber="K4531" phoneNumber="8932245322" eMail="griboed@mail.ru"
                 address="г.Владимир ул.Безыменского д.14 кв.33">
             <id>4</id>
