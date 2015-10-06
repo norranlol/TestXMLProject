@@ -1,13 +1,14 @@
 package parsers.dom;
 
 import org.w3c.dom.Document;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class DOMParserRunner {
 
@@ -16,13 +17,12 @@ public class DOMParserRunner {
 
     public static void main(String[] args){
         try {
-            File xml = new File(XML_PATH);
+            File xmlFile = new File(XML_PATH);
+            FileInputStream xmlInputStream = new FileInputStream(xmlFile);
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setValidating(true);
             DocumentBuilder builder = factory.newDocumentBuilder();
-            ErrorHandler handler = new DOMErrorHandler();
-            builder.setErrorHandler(handler);
-            Document document = builder.parse(xml);
+            Document document = builder.parse(xmlInputStream);
+            document.getDomConfig().setParameter("error-handler", new MyDOMErrorHandler());
             DOMConverter domConverter = new DOMConverter(document, HTML_PATH);
             domConverter.convertToHTML();
         } catch (ParserConfigurationException e) {
@@ -33,6 +33,4 @@ public class DOMParserRunner {
             System.out.println(e.toString());
         }
     }
-
-
 }

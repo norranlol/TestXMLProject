@@ -51,6 +51,9 @@ public class HTMLDocumentImpl extends DocumentImpl {
         headElement.appendChild(titleElement);
         Element bodyElement = htmlDoc.createElement("body");
         htmlElement.appendChild(bodyElement);
+        Element styleElement = htmlDoc.createElement("style");
+        styleElement.setTextContent("td { vertical-align: top }");
+        htmlElement.appendChild(styleElement);
         return htmlDoc;
     }
 

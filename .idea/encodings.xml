@@ -2,8 +2,8 @@
 <project version="4">
   <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/src/parsers/dom/DOMConverter.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/parsers/dom/DOMErrorHandler.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/parsers/dom/DOMParserRunner.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/parsers/dom/MyDOMErrorHandler.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/parsers/dom/html/HTMLDocumentImpl.java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
