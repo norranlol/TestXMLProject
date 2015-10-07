@@ -25,7 +25,7 @@ public class MyDOMErrorHandler implements DOMErrorHandler {
         } else if (error.getSeverity() == DOMError.SEVERITY_FATAL_ERROR){
             System.out.println("Fatal error!");
             printInfo(error);
-            return false;
+            return true;
         }
         return true;
     }

@@ -5,22 +5,28 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.concurrent.TimeUnit;
 
 public class HTMLConvertHelper {
 
-    public static final String[] MAIN_COLUMNS = new String[]{"ID", "Время отправления", "Время прибытия", "Пилот",
-            "Самолет", "Маршрут", "Билет"};
-    private static final HashMap<String, String> PLANE_FIELDS = new HashMap<String, String>();
-    private static final HashMap<String, String> PILOT_FIELDS = new HashMap<String, String>();
+    public static final String[] MAIN_COLUMNS = new String[]{"ID", "Время отправления", "Время прибытия",
+            "Длит. полета", "Пилот", "Самолет", "Маршрут", "Билет"};
+    public static final HashMap<String, String> PLANE_FIELDS = new HashMap<String, String>();
+    public static final HashMap<String, String> PILOT_FIELDS = new HashMap<String, String>();
     private static final HashMap<String, String> ROUTE_FIELDS = new HashMap<String, String>();
     private static final HashMap<String, String> POINT_FIELDS = new HashMap<String, String>();
-    private static final HashMap<String, String> TICKET_FIELDS = new HashMap<String, String>();
+    public static final HashMap<String, String> TICKET_FIELDS = new HashMap<String, String>();
     private static final ArrayList<String> UNPARSED_ELEMENTS = new ArrayList<>();
 
     private static final String PILOT_N = "Пилот №";
+    public static final String PRICE = "Цена";
 
     static {
         //Локализация полей для самолёта
@@ -66,6 +72,20 @@ public class HTMLConvertHelper {
         return dateTime.replace("T"," ");
     }
 
+    public static String calculateDifferenceBetweenTimestamps(Timestamp ts1, Timestamp ts2){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        Date date1 = null;
+        Date date2 = null;
+        try {
+            date1 = dateFormat.parse(ts1.toString());
+            date2 = dateFormat.parse(ts2.toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String duration = getDurationBreakdown(date2.getTime() - date1.getTime());
+        return duration;
+    }
+
     public static HashMap<String, String> getSimpleDataFromNode(Node rootNode){
         HashMap<String, String> dataMap = new LinkedHashMap<String, String>();
         NodeList nodeList = rootNode.getChildNodes();
@@ -95,25 +115,13 @@ public class HTMLConvertHelper {
         return dataMap;
     }
 
-    public static HashMap<String, String> getLocalizedDataForPlane(Node planeNode){
-        return getLocalizedDataForNode(planeNode, PLANE_FIELDS);
-    }
-
-    public static HashMap<String, String> getLocalizedDataForPilot(Node pilotNode){
-        return getLocalizedDataForNode(pilotNode, PILOT_FIELDS);
-    }
-
-    public static HashMap<String, String> getLocalizedDataForPoint(Node pointNode){
-        return getLocalizedDataForNode(pointNode, POINT_FIELDS);
-    }
-
     public static HashMap<String, String> getLocalizedDataForRoute(Node routeNode){
         HashMap<String, String> routeMap = getLocalizedDataForNode(routeNode, ROUTE_FIELDS);
         Element routeElement = (Element) routeNode;
         NodeList pointList = routeElement.getElementsByTagName("point");
         for (int i = 0; i < pointList.getLength(); i++){
             routeMap.put("Точка " + (i + 1), " ");
-            HashMap<String, String> pointMap = getLocalizedDataForPoint(pointList.item(i));
+            HashMap<String, String> pointMap = getLocalizedDataForNode(pointList.item(i), POINT_FIELDS);
             for (String key : pointMap.keySet()){
                 String value = pointMap.get(key);
                 routeMap.put(key + (i + 1), value);
@@ -122,7 +130,21 @@ public class HTMLConvertHelper {
         return routeMap;
     }
 
-    public static HashMap<String, String> getLocalizedDataForTicket(Node ticketNode){
-        return getLocalizedDataForNode(ticketNode, TICKET_FIELDS);
+    private static String getDurationBreakdown(long millis)
+    {
+        if(millis < 0)
+            throw new IllegalArgumentException("Duration must be greater than zero!");
+        long days = TimeUnit.MILLISECONDS.toDays(millis);
+        millis -= TimeUnit.DAYS.toMillis(days);
+        long hours = TimeUnit.MILLISECONDS.toHours(millis);
+        millis -= TimeUnit.HOURS.toMillis(hours);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
+
+        StringBuilder sb = new StringBuilder(64);
+        sb.append(hours);
+        sb.append(" Ч ");
+        sb.append(minutes);
+        sb.append(" М ");
+        return(sb.toString());
     }
 }

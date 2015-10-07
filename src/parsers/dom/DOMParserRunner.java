@@ -21,8 +21,9 @@ public class DOMParserRunner {
             FileInputStream xmlInputStream = new FileInputStream(xmlFile);
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
+            builder.setErrorHandler(new MySAXErrorHandler());
             Document document = builder.parse(xmlInputStream);
-            document.getDomConfig().setParameter("error-handler", new MyDOMErrorHandler());
+            //document.getDomConfig().setParameter("error-handler", new MyDOMErrorHandler());
             DOMConverter domConverter = new DOMConverter(document, HTML_PATH);
             domConverter.convertToHTML();
         } catch (ParserConfigurationException e) {
