@@ -12,6 +12,7 @@ import java.io.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class DOMConverter {
 
@@ -19,13 +20,7 @@ public class DOMConverter {
     private Document htmlDocument;
     private String fileName;
     private LSSerializer lsSerializer;
-    private final String ID_FIELD = "id";
-    private final String TIME_OF_DEPARTURE_FIELD = "timeOfDeparture";
-    private final String TIME_OF_ARRIVAL_FIELD = "timeOfArrival";
-    private final String PILOT_FIELD = "pilot";
-    private final String PLANE_FIELD = "plane";
-    private final String ROUTE_FIELD = "route";
-    private final String TICKET_FIELD = "ticket";
+
 
     public DOMConverter(Document xmlDocument, String fileName){
         this.xmlDocument = xmlDocument;
@@ -36,7 +31,7 @@ public class DOMConverter {
         htmlDocument = HTMLDocumentImpl.makeBasicHtmlDoc("Моя тестовая HTML-страница");
         Element flightsElement = xmlDocument.getDocumentElement();
         Node bodyElement = htmlDocument.getElementsByTagName("body").item(0);
-        NodeList nodeList = flightsElement.getElementsByTagName("flight");
+        NodeList nodeList = flightsElement.getElementsByTagName(HTMLConvertHelper.FLIGHT_FIELD);
         for (int i = 0; i < nodeList.getLength(); i++){
             Node node = nodeList.item(i);
             Element tableElement = HTMLDocumentImpl.createAndAppendElement(htmlDocument, bodyElement, "table", null);
@@ -74,38 +69,31 @@ public class DOMConverter {
         ArrayList<Node> ticketNodes = new ArrayList<Node>();
         for (int j = 0; j < childNodes.getLength(); j++){
             switch (childNodes.item(j).getNodeName()){
-                case ID_FIELD:
+                case HTMLConvertHelper.ID_FIELD:
                     HTMLDocumentImpl.createAndAppendElement(htmlDocument, trElement, "td", childNodes.item(j).getTextContent());
-                    System.out.println("ID FOUND");
                     break;
-                case TIME_OF_DEPARTURE_FIELD:
-                    System.out.println("TIME_OF_DEPARTURE_FOUND");
+                case HTMLConvertHelper.TIME_OF_DEPARTURE_FIELD:
                     firstStamp = HTMLConvertHelper.getReadableDateTime(childNodes.item(j).getTextContent());
                     HTMLDocumentImpl.createAndAppendElement(htmlDocument, trElement, "td", firstStamp);
                     break;
-                case TIME_OF_ARRIVAL_FIELD:
-                    System.out.println("TIME_OF_ARRIVAL_FOUND");
+                case HTMLConvertHelper.TIME_OF_ARRIVAL_FIELD:
                     secondStamp = HTMLConvertHelper.getReadableDateTime(childNodes.item(j).getTextContent());
                     HTMLDocumentImpl.createAndAppendElement(htmlDocument, trElement, "td",
                             secondStamp);
                     fillDurationOfFlight(firstStamp, secondStamp, htmlDocument, trElement);
                     break;
-                case PILOT_FIELD:
-                    System.out.println("PILOT_FOUND");
+                case HTMLConvertHelper.PILOT_FIELD:
                     pilotNodes.add(childNodes.item(j));
                     if (pilotNodes.size() == pilotCount)
                         fillInfoAboutPilots(htmlDocument, trElement, pilotNodes);
                     break;
-                case PLANE_FIELD:
-                    System.out.println("PLANE_FOUND");
+                case HTMLConvertHelper.PLANE_FIELD:
                     fillInfoAboutPlane(htmlDocument, trElement, childNodes.item(j));
                     break;
-                case ROUTE_FIELD:
-                    System.out.println("ROUTE_FOUND");
+                case HTMLConvertHelper.ROUTE_FIELD:
                     fillInfoAboutRoute(htmlDocument, trElement, childNodes.item(j));
                     break;
-                case TICKET_FIELD:
-                    System.out.println("TICKET_FOUND");
+                case HTMLConvertHelper.TICKET_FIELD:
                     ticketNodes.add(childNodes.item(j));
                     if (ticketNodes.size() == ticketCount)
                         fillInfoAboutTickets(htmlDocument, trElement, ticketNodes);
@@ -127,19 +115,19 @@ public class DOMConverter {
             Element tableElement = HTMLDocumentImpl.createAndAppendElement(htmlDocument, tdElement, "table", null);
             HTMLDocumentImpl.createAndAppendElement(htmlDocument, tableElement, "caption", "Пилот " + (i + 1));
             setWidthAndBorderForTable(tableElement);
-            HashMap<String, String> dataMap = HTMLConvertHelper.getLocalizedDataForNode(pilotNodes.get(i),
+            HashMap<String, String> dataMap = getLocalizedDataForNode(pilotNodes.get(i),
                     HTMLConvertHelper.PILOT_FIELDS);
             createTableForDataMap(dataMap, tableElement);
         }
     }
 
     private void fillInfoAboutRoute(Document htmlDocument, Element trElement, Node routeNode){
-        HashMap<String, String> dataMap = HTMLConvertHelper.getLocalizedDataForRoute(routeNode);
+        HashMap<String, String> dataMap = getLocalizedDataForRoute(routeNode);
         fillInfoAboutElement(htmlDocument, trElement, routeNode, dataMap);
     }
 
     private void fillInfoAboutPlane(Document htmlDocument, Element trElement, Node planeNode){
-        HashMap<String, String> dataMap = HTMLConvertHelper.getLocalizedDataForNode(planeNode, HTMLConvertHelper.PLANE_FIELDS);
+        HashMap<String, String> dataMap = getLocalizedDataForNode(planeNode, HTMLConvertHelper.PLANE_FIELDS);
         fillInfoAboutElement(htmlDocument, trElement, planeNode, dataMap);
     }
 
@@ -159,7 +147,7 @@ public class DOMConverter {
             Element tableElement = HTMLDocumentImpl.createAndAppendElement(htmlDocument, tdElement, "table", null);
             HTMLDocumentImpl.createAndAppendElement(htmlDocument, tableElement, "caption", "Билет № " + (i + 1));
             setWidthAndBorderForTable(tableElement);
-            HashMap<String, String> dataMap = HTMLConvertHelper.getLocalizedDataForNode(ticketNodes.get(i),
+            HashMap<String, String> dataMap = getLocalizedDataForNode(ticketNodes.get(i),
                     HTMLConvertHelper.TICKET_FIELDS);
             ticketCounter++;
             priceCounter += Integer.valueOf(dataMap.get(HTMLConvertHelper.PRICE));
@@ -209,5 +197,49 @@ public class DOMConverter {
         } catch (Exception e){
             System.out.println("Some problems with instantiations");
         }
+    }
+
+    public static HashMap<String, String> getSimpleDataFromNode(Node rootNode){
+        HashMap<String, String> dataMap = new LinkedHashMap<String, String>();
+        NodeList nodeList = rootNode.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++){
+            Node node = nodeList.item(i);
+            dataMap.put(node.getNodeName(), node.getTextContent());
+        }
+        NamedNodeMap attributesMap = rootNode.getAttributes();
+        for (int i = 0; i < attributesMap.getLength(); i++){
+            Node node = attributesMap.item(i);
+            dataMap.put(node.getNodeName(), node.getTextContent());
+        }
+        return dataMap;
+    }
+
+    public static HashMap<String, String> getLocalizedDataForNode(Node rootNode, HashMap<String, String> localizedHashMap){
+        HashMap<String, String> dataMap = getSimpleDataFromNode(rootNode);
+        ArrayList<String> initialKeyList = new ArrayList<String>(dataMap.keySet());
+        for (String key : initialKeyList){
+            if (key.equals("#text") || HTMLConvertHelper.UNPARSED_ELEMENTS.contains(key))
+                continue;
+            String localizedName = localizedHashMap.get(key);
+            dataMap.put(localizedName, dataMap.get(key));
+        }
+        for (String initialKey : initialKeyList)
+            dataMap.remove(initialKey);
+        return dataMap;
+    }
+
+    public static HashMap<String, String> getLocalizedDataForRoute(Node routeNode){
+        HashMap<String, String> routeMap = getLocalizedDataForNode(routeNode, HTMLConvertHelper.ROUTE_FIELDS);
+        Element routeElement = (Element) routeNode;
+        NodeList pointList = routeElement.getElementsByTagName("point");
+        for (int i = 0; i < pointList.getLength(); i++){
+            routeMap.put("Точка " + (i + 1), " ");
+            HashMap<String, String> pointMap = getLocalizedDataForNode(pointList.item(i), HTMLConvertHelper.POINT_FIELDS);
+            for (String key : pointMap.keySet()){
+                String value = pointMap.get(key);
+                routeMap.put(key + (i + 1), value);
+            }
+        }
+        return routeMap;
     }
 }

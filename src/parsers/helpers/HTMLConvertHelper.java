@@ -1,10 +1,5 @@
 package parsers.helpers;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,15 +13,26 @@ public class HTMLConvertHelper {
 
     public static final String[] MAIN_COLUMNS = new String[]{"ID", "Время отправления", "Время прибытия",
             "Длит. полета", "Пилот", "Самолет", "Маршрут", "Билет"};
-    public static final HashMap<String, String> PLANE_FIELDS = new HashMap<String, String>();
-    public static final HashMap<String, String> PILOT_FIELDS = new HashMap<String, String>();
-    private static final HashMap<String, String> ROUTE_FIELDS = new HashMap<String, String>();
-    private static final HashMap<String, String> POINT_FIELDS = new HashMap<String, String>();
-    public static final HashMap<String, String> TICKET_FIELDS = new HashMap<String, String>();
-    private static final ArrayList<String> UNPARSED_ELEMENTS = new ArrayList<>();
+    public static final HashMap<String, String> PLANE_FIELDS = new LinkedHashMap<String, String>();
+    public static final HashMap<String, String> PILOT_FIELDS = new LinkedHashMap<String, String>();
+    public static final HashMap<String, String> ROUTE_FIELDS = new LinkedHashMap<String, String>();
+    public static final HashMap<String, String> POINT_FIELDS = new LinkedHashMap<String, String>();
+    public static final HashMap<String, String> TICKET_FIELDS = new LinkedHashMap<String, String>();
+    public static final ArrayList<String> UNPARSED_ELEMENTS = new ArrayList<>();
+    public static final String FLIGHTS_FIELD = "flights";
+    public static final String FLIGHT_FIELD = "flight";
+    public static final String ID_FIELD = "id";
+    public static final String TIME_OF_DEPARTURE_FIELD = "timeOfDeparture";
+    public static final String TIME_OF_ARRIVAL_FIELD = "timeOfArrival";
+    public static final String PILOT_FIELD = "pilot";
+    public static final String PLANE_FIELD = "plane";
+    public static final String ROUTE_FIELD = "route";
+    public static final String TICKET_FIELD = "ticket";
+    public static final String CLIENT_FIELD = "client";
+    public static final ArrayList<String> ROOT_ELEMENTS = new ArrayList<>();
 
-    private static final String PILOT_N = "Пилот №";
     public static final String PRICE = "Цена";
+    public static final String ID_TEXT = "ID";
 
     static {
         //Локализация полей для самолёта
@@ -60,12 +66,20 @@ public class HTMLConvertHelper {
         TICKET_FIELDS.put("row","Ряд");
         TICKET_FIELDS.put("place","Место");
         TICKET_FIELDS.put("status","Статус");
-        TICKET_FIELDS.put("price","Цена");
+        TICKET_FIELDS.put("price", "Цена");
         TICKET_FIELDS.put("position", "Расположение");
         //Элементы, которые не будут парситься
         UNPARSED_ELEMENTS.add("point");
         UNPARSED_ELEMENTS.add("anonimousClient");
         UNPARSED_ELEMENTS.add("client");
+        //Корневые элементы
+        ROOT_ELEMENTS.add("flight");
+        ROOT_ELEMENTS.add("pilot");
+        ROOT_ELEMENTS.add("plane");
+        ROOT_ELEMENTS.add("route");
+        ROOT_ELEMENTS.add("point");
+        ROOT_ELEMENTS.add("ticket");
+        ROOT_ELEMENTS.add("client");
     }
 
     public static String getReadableDateTime(String dateTime){
@@ -84,50 +98,6 @@ public class HTMLConvertHelper {
         }
         String duration = getDurationBreakdown(date2.getTime() - date1.getTime());
         return duration;
-    }
-
-    public static HashMap<String, String> getSimpleDataFromNode(Node rootNode){
-        HashMap<String, String> dataMap = new LinkedHashMap<String, String>();
-        NodeList nodeList = rootNode.getChildNodes();
-        for (int i = 0; i < nodeList.getLength(); i++){
-            Node node = nodeList.item(i);
-            dataMap.put(node.getNodeName(), node.getTextContent());
-        }
-        NamedNodeMap attributesMap = rootNode.getAttributes();
-        for (int i = 0; i < attributesMap.getLength(); i++){
-            Node node = attributesMap.item(i);
-            dataMap.put(node.getNodeName(), node.getTextContent());
-        }
-        return dataMap;
-    }
-
-    public static HashMap<String, String> getLocalizedDataForNode(Node rootNode, HashMap<String, String> localizedHashMap){
-        HashMap<String, String> dataMap = getSimpleDataFromNode(rootNode);
-        ArrayList<String> initialKeyList = new ArrayList<String>(dataMap.keySet());
-        for (String key : initialKeyList){
-            if (key.equals("#text") || UNPARSED_ELEMENTS.contains(key))
-                continue;
-            String localizedName = localizedHashMap.get(key);
-            dataMap.put(localizedName, dataMap.get(key));
-        }
-        for (String initialKey : initialKeyList)
-            dataMap.remove(initialKey);
-        return dataMap;
-    }
-
-    public static HashMap<String, String> getLocalizedDataForRoute(Node routeNode){
-        HashMap<String, String> routeMap = getLocalizedDataForNode(routeNode, ROUTE_FIELDS);
-        Element routeElement = (Element) routeNode;
-        NodeList pointList = routeElement.getElementsByTagName("point");
-        for (int i = 0; i < pointList.getLength(); i++){
-            routeMap.put("Точка " + (i + 1), " ");
-            HashMap<String, String> pointMap = getLocalizedDataForNode(pointList.item(i), POINT_FIELDS);
-            for (String key : pointMap.keySet()){
-                String value = pointMap.get(key);
-                routeMap.put(key + (i + 1), value);
-            }
-        }
-        return routeMap;
     }
 
     private static String getDurationBreakdown(long millis)
