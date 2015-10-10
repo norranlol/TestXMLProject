@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="xerces-2.9.0">
     <CLASSES>
-      <root url="jar://E:/dev/java/libs/xerces-2.9.0.jar!/" />
+      <root url="jar://D:/Java/libs/xerces-2.9.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
