@@ -27,12 +27,15 @@ public class HTMLConvertHelper {
     public static final String PILOT_FIELD = "pilot";
     public static final String PLANE_FIELD = "plane";
     public static final String ROUTE_FIELD = "route";
+    public static final String POINT_FIELD = "point";
     public static final String TICKET_FIELD = "ticket";
     public static final String CLIENT_FIELD = "client";
     public static final ArrayList<String> ROOT_ELEMENTS = new ArrayList<>();
 
     public static final String PRICE = "Цена";
     public static final String ID_TEXT = "ID";
+    public static final String IMAGE_TITLE = "image";
+    public static final String POSITION_TITLE = "position";
 
     static {
         //Локализация полей для самолёта
@@ -58,16 +61,16 @@ public class HTMLConvertHelper {
         ROUTE_FIELDS.put("distance", "Дистанция");
         //Локализация полей для точки
         POINT_FIELDS.put("id","ID");
+        POINT_FIELDS.put("image","Картинка");
         POINT_FIELDS.put("country","Страна");
         POINT_FIELDS.put("city","Город");
-        POINT_FIELDS.put("image","Картинка");
         //Локализация полей для билета
         TICKET_FIELDS.put("id","ID");
+        TICKET_FIELDS.put("position", "Расположение");
         TICKET_FIELDS.put("row","Ряд");
         TICKET_FIELDS.put("place","Место");
         TICKET_FIELDS.put("status","Статус");
         TICKET_FIELDS.put("price", "Цена");
-        TICKET_FIELDS.put("position", "Расположение");
         //Элементы, которые не будут парситься
         UNPARSED_ELEMENTS.add("point");
         UNPARSED_ELEMENTS.add("anonimousClient");

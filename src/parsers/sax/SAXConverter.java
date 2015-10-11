@@ -8,8 +8,12 @@ import java.util.*;
 public class SAXConverter {
 
     private int pilotCounter = 0;
+    private int pointCounter = 0;
+    private int ticketCounter = 0;
     private boolean isPilotClosed = false;
     private HashMap<String, String> pilotAttributes = new LinkedHashMap<String, String>();
+    private String imagePoint = null;
+    private String position = null;
 
     public String getValueOfAttributeByName(Attributes attributes, String attributeName){
         for (int i = 0; i < attributes.getLength(); i++){
@@ -70,11 +74,45 @@ public class SAXConverter {
     }
 
     public void convertPlaneFields(String qName, String value){
+        String localizedName = HTMLConvertHelper.PLANE_FIELDS.get(qName);
+        createComplexTrElementWithCurrentWhitespaces(localizedName, value, 6);
+        String latestKey = findLatestKeyForMap(HTMLConvertHelper.PLANE_FIELDS);
+        if (qName.equals(latestKey))
+            endInnerTable();
+    }
 
-        //Закрываем таблицу пилотов
-        if (!isPilotClosed) {
-            System.out.println("                </td>");
-            isPilotClosed = true;
+    private void endInnerTable(){
+        System.out.println("                    </table>");
+        System.out.println("                </td>");
+    }
+
+    public void convertRouteFields(String qName, String value){
+        String localizedName = HTMLConvertHelper.ROUTE_FIELDS.get(qName);
+        createComplexTrElementWithCurrentWhitespaces(localizedName, value, 6);
+        String latestKey = findLatestKeyForMap(HTMLConvertHelper.ROUTE_FIELDS);
+        if (qName.equals(latestKey))
+            endInnerTable();
+    }
+
+    public void convertPointFields(String qName, String value){
+        String localizedName = HTMLConvertHelper.POINT_FIELDS.get(qName);
+        createComplexTrElementWithCurrentWhitespaces(localizedName, value, 6);
+        String latestKey = findLatestKeyForMap(HTMLConvertHelper.POINT_FIELDS);
+        if (qName.equals(latestKey)){
+            createComplexTrElementWithCurrentWhitespaces(HTMLConvertHelper.POINT_FIELDS.get
+                    (HTMLConvertHelper.IMAGE_TITLE), imagePoint, 6);
+        }
+    }
+
+    public void convertTicketFields(String qName, String value){
+        String localizedName = HTMLConvertHelper.TICKET_FIELDS.get(qName);
+        createComplexTrElementWithCurrentWhitespaces(localizedName, value, 6);
+        String latestKey = findLatestKeyForMap(HTMLConvertHelper.TICKET_FIELDS);
+        //Если последняя строка элемента ticket, то описываем атрибуты и закрываем таблицу
+        if (qName.equals(latestKey)){
+            createComplexTrElementWithCurrentWhitespaces(HTMLConvertHelper.TICKET_FIELDS.get
+                    (HTMLConvertHelper.POSITION_TITLE), position, 6);
+            System.out.println("                    </table>");
         }
     }
 
@@ -86,6 +124,14 @@ public class SAXConverter {
         }
     }
 
+    public void fillPointAttributes(Attributes attributes){
+        imagePoint = getValueOfAttributeByName(attributes, HTMLConvertHelper.IMAGE_TITLE);
+    }
+
+    public void fillTicketAttributes(Attributes attributes){
+        position = getValueOfAttributeByName(attributes, HTMLConvertHelper.POSITION_TITLE);
+    }
+
     public void convertAllIdFields(String qName, String value, String currentRootElement){
         if (currentRootElement.equals(HTMLConvertHelper.PILOT_FIELD)){
             //Создаем единый td для всех таблиц пилотов
@@ -93,17 +139,42 @@ public class SAXConverter {
                 System.out.println("                <td>");
             pilotCounter++;
             System.out.println("                    <table border=\"1\" width=\"100%\">");
-            createSimpleElementWithCurrentWhitespaces("caption", "Пилот " + value, 6);
+            createSimpleElementWithCurrentWhitespaces("caption", "Пилот " + pilotCounter, 6);
             createComplexTrElementWithCurrentWhitespaces(HTMLConvertHelper.ID_TEXT, value, 6);
-        } else if (currentRootElement.equals(HTMLConvertHelper.PLANE_FIELD)){
-//            System.out.println("                <td>");
-//            System.out.println("                    <table border=\"1\" width=\"100%\">");
-//            createComplexTrElementWithCurrentWhitespaces(HTMLConvertHelper.ID_TEXT, value, 6);
+        } else if (currentRootElement.equals(HTMLConvertHelper.PLANE_FIELD)) {
+            //Закрываем таблицу пилотов
+            if (!isPilotClosed) {
+                System.out.println("                </td>");
+                isPilotClosed = true;
+            }
+            startInnerTable();
+            createComplexTrElementWithCurrentWhitespaces(HTMLConvertHelper.ID_TEXT, value, 6);
+        } else if (currentRootElement.equals(HTMLConvertHelper.ROUTE_FIELD)){
+            startInnerTable();
+            createComplexTrElementWithCurrentWhitespaces(HTMLConvertHelper.ID_TEXT, value, 6);
+        } else if (currentRootElement.equals(HTMLConvertHelper.POINT_FIELD)){
+            createComplexTrElementWithCurrentWhitespaces("Точка " + (pointCounter + 1), "", 6);
+            pointCounter++;
+            createComplexTrElementWithCurrentWhitespaces(HTMLConvertHelper.ID_TEXT, value, 6);
+        } else if (currentRootElement.equals(HTMLConvertHelper.TICKET_FIELD)){
+            if (ticketCounter == 0)
+                System.out.println("                <td>");
+            ticketCounter++;
+            System.out.println("                    <table border=\"1\" width=\"100%\">");
+            createSimpleElementWithCurrentWhitespaces("caption", "Билет " + ticketCounter, 6);
+            createComplexTrElementWithCurrentWhitespaces(HTMLConvertHelper.ID_TEXT, value, 6);
         } else if (currentRootElement.equals(HTMLConvertHelper.FLIGHT_FIELD)){
             createSimpleElementWithCurrentWhitespaces("td", value, 4);
             pilotCounter = 0;
+            pointCounter = 0;
             isPilotClosed = false;
+            imagePoint = null;
         }
+    }
+
+    private void startInnerTable(){
+        System.out.println("                <td>");
+        System.out.println("                    <table border=\"1\" width=\"100%\">");
     }
 
 }

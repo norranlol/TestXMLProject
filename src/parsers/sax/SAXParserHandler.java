@@ -64,6 +64,10 @@ public class SAXParserHandler extends DefaultHandler {
             System.out.println("            <tr>");
         } else if (qName.equals(HTMLConvertHelper.PILOT_FIELD)){
             saxConverter.fillPilotAttributes(attributes);
+        } else if (qName.equals(HTMLConvertHelper.POINT_FIELD)){
+            saxConverter.fillPointAttributes(attributes);
+        } else if (qName.equals(HTMLConvertHelper.TICKET_FIELD)){
+            saxConverter.fillTicketAttributes(attributes);
         }
     }
 
@@ -92,6 +96,12 @@ public class SAXParserHandler extends DefaultHandler {
             saxConverter.convertPilotFields(qName, value);
         } else if (HTMLConvertHelper.PLANE_FIELDS.get(qName) != null){ //Поля самолета
             saxConverter.convertPlaneFields(qName, value);
+        } else if (HTMLConvertHelper.ROUTE_FIELDS.get(qName) != null){ //Поля маршрута
+            saxConverter.convertRouteFields(qName, value);
+        } else if (HTMLConvertHelper.POINT_FIELDS.get(qName) != null){ //Поля точки
+            saxConverter.convertPointFields(qName, value);
+        } else if (HTMLConvertHelper.TICKET_FIELDS.get(qName) != null){ //Поля билета
+            saxConverter.convertTicketFields(qName, value);
         }
     }
 
