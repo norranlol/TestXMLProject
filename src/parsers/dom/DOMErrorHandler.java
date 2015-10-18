@@ -4,7 +4,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-public class MySAXErrorHandler implements ErrorHandler {
+public class DOMErrorHandler implements ErrorHandler {
 
     @Override
     public void warning(SAXParseException e) throws SAXException {
@@ -15,7 +15,7 @@ public class MySAXErrorHandler implements ErrorHandler {
     @Override
     public void error(SAXParseException e) throws SAXException {
         System.out.println("Error: ");
-//        System.exit(1);
+        System.exit(1);
         printInfo(e);
     }
 
@@ -23,7 +23,7 @@ public class MySAXErrorHandler implements ErrorHandler {
     public void fatalError(SAXParseException e)
             throws SAXException {
         System.out.println("Fatal error: ");
-//        System.exit(2);
+        System.exit(2);
         printInfo(e);
     }
 
@@ -34,5 +34,4 @@ public class MySAXErrorHandler implements ErrorHandler {
         System.out.println("   Column number: "+e.getColumnNumber());
         System.out.println("   Message: "+e.getMessage());
     }
-
 }

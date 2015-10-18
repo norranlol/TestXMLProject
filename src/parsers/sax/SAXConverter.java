@@ -9,11 +9,12 @@ public class SAXConverter {
 
     private int pilotCounter = 0;
     private int pointCounter = 0;
-    private int ticketCounter = 0;
+    public static int ticketCounter = 0;
     private boolean isPilotClosed = false;
     private HashMap<String, String> pilotAttributes = new LinkedHashMap<String, String>();
     private String imagePoint = null;
     private String position = null;
+    public static int priceSum = 0;
 
     public String getValueOfAttributeByName(Attributes attributes, String attributeName){
         for (int i = 0; i < attributes.getLength(); i++){
@@ -43,6 +44,14 @@ public class SAXConverter {
         String innerWhitespacesStr = getWhitespaceString(whitespacesCount + 1);
         System.out.println(whitespacesStr + "<tr>");
         System.out.println(innerWhitespacesStr + "<td>" + localizedName + "</td>");
+        System.out.println(innerWhitespacesStr + "<td>" + value + "</td>");
+        System.out.println(whitespacesStr + "</tr>");
+    }
+
+    public void createSimpleTrElementWithCurrentWhitespaces(String value, int whitespacesCount){
+        String whitespacesStr = getWhitespaceString(whitespacesCount);
+        String innerWhitespacesStr = getWhitespaceString(whitespacesCount + 1);
+        System.out.println(whitespacesStr + "<tr>");
         System.out.println(innerWhitespacesStr + "<td>" + value + "</td>");
         System.out.println(whitespacesStr + "</tr>");
     }
@@ -106,6 +115,8 @@ public class SAXConverter {
 
     public void convertTicketFields(String qName, String value){
         String localizedName = HTMLConvertHelper.TICKET_FIELDS.get(qName);
+        if (localizedName.equals(HTMLConvertHelper.PRICE))
+            priceSum += Integer.valueOf(value);
         createComplexTrElementWithCurrentWhitespaces(localizedName, value, 6);
         String latestKey = findLatestKeyForMap(HTMLConvertHelper.TICKET_FIELDS);
         //Если последняя строка элемента ticket, то описываем атрибуты и закрываем таблицу

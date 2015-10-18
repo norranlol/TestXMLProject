@@ -17,6 +17,7 @@ public class SAXParserRunner {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             factory.setValidating(true);
             SAXParser parser = factory.newSAXParser();
+           // parser.getXMLReader().setErrorHandler(new DOMErrorHandler());
             SAXParserHandler saxParserHandler = new SAXParserHandler();
             parser.parse(xmlInputStream, saxParserHandler);
         } catch (Exception e){

@@ -2,25 +2,29 @@ package parsers.sax;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
+import parsers.helpers.FileHelper;
 import parsers.helpers.HTMLConvertHelper;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
+import java.io.*;
 import java.sql.Timestamp;
 
 public class SAXParserHandler extends DefaultHandler {
 
     private static final String HTML_PATH = "output/html/testHTML2.html";
+    private static final String ERROR_LOG_PATH = "src/parsers/sax/error/error_log.txt";
     private SAXConverter saxConverter = new SAXConverter();
     private String value = null;
     public static String currentRootElement = null;
     private Timestamp timeOfDeparture = null;
     private Timestamp timeOfArrival = null;
+    private PrintWriter printWriter = null;
 
-    public SAXParserHandler() throws FileNotFoundException {
+    public SAXParserHandler() throws IOException {
         System.setOut(new PrintStream(new File(HTML_PATH)));
+        FileWriter fileWriter = new FileWriter(ERROR_LOG_PATH, true);
+        printWriter = new PrintWriter(fileWriter);
     }
 
     @Override
@@ -77,6 +81,10 @@ public class SAXParserHandler extends DefaultHandler {
         if (qName.equals(HTMLConvertHelper.FLIGHT_FIELD)){
             System.out.println("            </tr>");
             System.out.println("        </tbody>");
+            System.out.println("        <tfoot>");
+            saxConverter.createSimpleTrElementWithCurrentWhitespaces("Итого продано: " + String.valueOf(SAXConverter.ticketCounter), 5);
+            saxConverter.createSimpleTrElementWithCurrentWhitespaces("Итоговая сумма: " + String.valueOf(SAXConverter.priceSum), 5);
+            System.out.println("        </tfoot>");
             System.out.println("    </table>");
             System.out.println("    <br/>");
             System.out.println("    <br/>");
@@ -109,5 +117,33 @@ public class SAXParserHandler extends DefaultHandler {
     public void characters(char[] ch, int start, int length) throws SAXException {
         super.characters(ch, start, length);
         value = new String(ch, start, length);
+    }
+
+    @Override
+    public void warning(SAXParseException e) throws SAXException {
+        FileHelper.writeToFile(printWriter, "Warning: ");
+        printInfo(e);
+    }
+
+    @Override
+    public void error(SAXParseException e) throws SAXException {
+        FileHelper.writeToFile(printWriter, "Error: ");
+        printInfo(e);
+        System.exit(1);
+    }
+
+    @Override
+    public void fatalError(SAXParseException e) throws SAXException {
+        FileHelper.writeToFile(printWriter, "Fatal error: ");
+        printInfo(e);
+        System.exit(2);
+    }
+
+    private void printInfo(SAXParseException e) {
+        FileHelper.writeToFile(printWriter, "Public ID: " + e.getPublicId());
+        FileHelper.writeToFile(printWriter, "System ID: " + e.getSystemId());
+        FileHelper.writeToFile(printWriter, "Line number: " + e.getLineNumber());
+        FileHelper.writeToFile(printWriter, "Column number: " + e.getColumnNumber());
+        FileHelper.writeToFile(printWriter, "Message: " + e.getMessage());
     }
 }
