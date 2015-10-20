@@ -16,8 +16,10 @@ public class XSLTTransformer {
 
     public static void main(String[] args) {
         try {
+            //System.setErr(new PrintStream(new File(ERROR_FILE_PATH)));
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer transformer = tf.newTransformer(new StreamSource(XSL_PATH));
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.transform(new StreamSource(XML_PATH), new StreamResult(HTML_PATH));
             System.out.println("complete");

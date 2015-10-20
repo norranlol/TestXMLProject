@@ -44,6 +44,19 @@
             <cipher>&routeCipherN1;</cipher>
             <distance>3200</distance>
         </route>
+        <ticket position="right">
+            <id>2</id>
+            <row>5</row>
+            <place>6</place>
+            <price>8700</price>
+            <client pasportSeries="1408" pasportNumber="343241" phoneNumber="89204325533" eMail="andreev.mihail@mail.ru"
+                    address="г.Владимир ул.Печкина д.22 кв.3">
+                <id>2</id>
+                <surname>Андреев</surname>
+                <name>Михаил</name>
+                <patronymic>Андреевич</patronymic>
+            </client>
+        </ticket>
         <ticket position="left">
             <id>1</id>
             <row>3</row>
@@ -56,19 +69,6 @@
                 <surname>Петров</surname>
                 <name>Григорий</name>
                 <patronymic>Васильевич</patronymic>
-            </client>
-        </ticket>
-        <ticket position="right">
-            <id>2</id>
-            <row>5</row>
-            <place>6</place>
-            <price>8700</price>
-            <client pasportSeries="1408" pasportNumber="343241" phoneNumber="89204325533" eMail="andreev.mihail@mail.ru"
-                    address="г.Владимир ул.Печкина д.22 кв.3">
-                <id>2</id>
-                <surname>Андреев</surname>
-                <name>Михаил</name>
-                <patronymic>Андреевич</patronymic>
             </client>
         </ticket>
         <ticket>

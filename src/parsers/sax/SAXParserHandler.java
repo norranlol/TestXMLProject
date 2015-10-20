@@ -88,6 +88,8 @@ public class SAXParserHandler extends DefaultHandler {
             System.out.println("    </table>");
             System.out.println("    <br/>");
             System.out.println("    <br/>");
+            SAXConverter.ticketCounter = 0;
+            SAXConverter.priceSum = 0;
         } else if (qName.equals(HTMLConvertHelper.ID_FIELD)){
             saxConverter.convertAllIdFields(qName, value, currentRootElement);
         } else if (qName.equals(HTMLConvertHelper.TIME_OF_DEPARTURE_FIELD)){

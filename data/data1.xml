@@ -44,20 +44,6 @@
             <cipher>&routeCipherN1;</cipher>
             <distance>3200</distance>
         </route>
-        <ticket position="left">
-            <id>1</id>
-            <row>3</row>
-            <place>4</place>
-            <status>З</status>
-            <price>8800</price>
-            <client pasportSeries="1408" pasportNumber="545423" phoneNumber="834364643636" eMail="petrov.grigory@mail.ru"
-                    address="г.Владимир ул.Диктора Левитана д.3 кв.4">
-                <id>1</id>
-                <surname>Петров</surname>
-                <name>Григорий</name>
-                <patronymic>Васильевич</patronymic>
-            </client>
-        </ticket>
         <ticket position="right">
             <id>2</id>
             <row>5</row>
@@ -81,6 +67,20 @@
                 <companyName>ФСБ</companyName>
                 <employeerId>4</employeerId>
             </anonimousClient>
+        </ticket>
+        <ticket position="left">
+            <id>1</id>
+            <row>3</row>
+            <place>4</place>
+            <status>З</status>
+            <price>8800</price>
+            <client pasportSeries="1408" pasportNumber="545423" phoneNumber="834364643636" eMail="petrov.grigory@mail.ru"
+                    address="г.Владимир ул.Диктора Левитана д.3 кв.4">
+                <id>1</id>
+                <surname>Петров</surname>
+                <name>Григорий</name>
+                <patronymic>Васильевич</patronymic>
+            </client>
         </ticket>
     </flight>
     <flight flightCertificates="K4531">
