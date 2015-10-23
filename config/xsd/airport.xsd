@@ -2,8 +2,7 @@
 <xs:schema targetNamespace="http://www.airport.ru"
             elementFormDefault="qualified"
             xmlns:xs="http://www.w3.org/2001/XMLSchema"
-            xmlns="http://www.airport.ru"
-            xmlns:tns="http://www.airport.ru">
+            xmlns="http://www.airport.ru">
 <xs:element name="flights">
     <xs:complexType>
         <xs:sequence>
@@ -14,12 +13,12 @@
                         <xs:element name="timeOfDeparture" type="xs:dateTime"/>
                         <xs:element name="timeOfArrival" type="xs:dateTime"/>
                         <xs:element name="pilot" minOccurs="1" maxOccurs="4" type="pilot"/>
-                        <xs:element name="plane" type="fly"/>
+                        <xs:element name="plane" type="plane"/>
                         <xs:element name="route" type="route"/>
+                        <xs:element name="ticket" minOccurs="0" maxOccurs="500" type="ticket"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
-            <xs:element name="ticket" minOccurs="0" maxOccurs="500" type="ticket"/>
         </xs:sequence>
     </xs:complexType>
     <xs:key name="FlightNumberKey">
@@ -52,22 +51,19 @@
         <xs:element name="country" type="xs:string"/>
         <xs:element name="city" type="xs:string"/>
     </xs:sequence>
+    <xs:attribute name="image" type="xs:string"/>
 </xs:complexType>
 
 <xs:complexType name="fly" abstract="true"/>
 
 <xs:complexType name="plane">
-    <xs:complexContent>
-        <xs:extension base="fly">
-            <xs:sequence>
-                <xs:element name="id" type="xs:integer"/>
-                <xs:element name="model" type="enumOfPlainModels"/>
-                <xs:element name="year" type="yearInteger"/>
-                <xs:element name="countOfRows" type="xs:integer"/>
-                <xs:element name="placesInRow" type="xs:integer"/>
-            </xs:sequence>
-        </xs:extension>
-    </xs:complexContent>
+    <xs:sequence>
+        <xs:element name="id" type="xs:integer"/>
+        <xs:element name="model" type="enumOfPlainModels"/>
+        <xs:element name="year" type="yearInteger"/>
+        <xs:element name="countOfRows" type="xs:integer"/>
+        <xs:element name="placesInRow" type="xs:integer"/>
+    </xs:sequence>
 </xs:complexType>
 
 <xs:simpleType name="yearInteger">
@@ -113,6 +109,11 @@
         <xs:element name="name" type="xs:string"/>
         <xs:element name="patronymic" type="xs:string"/>
     </xs:sequence>
+    <xs:attribute name="pasportSeries" type="xs:string"/>
+    <xs:attribute name="pasportNumber" type="xs:string"/>
+    <xs:attribute name="phoneNumber" type="xs:string"/>
+    <xs:attribute name="eMail" type="xs:string"/>
+    <xs:attribute name="address" type="xs:string"/>
 </xs:complexType>
 
 <xs:complexType name="anonymousClient">
@@ -120,6 +121,7 @@
         <xs:element name="companyName" type="encodedString" />
         <xs:element name="employeerId" type="employeerIdInteger"/>
     </xs:all>
+    <xs:attribute name="isSecured" type="xs:string"/>
 </xs:complexType>
 
 <!--Ограничение сложного типа-->
@@ -150,12 +152,10 @@
 <xs:complexType name="pilot">
     <xs:complexContent>
         <xs:extension base="pilotBase">
-            <xs:sequence>
-                <xs:element name="certificateNumber" type="xs:string"/>
-                <xs:element name="phoneNumber" type="xs:string"/>
-                <xs:element name="eMail" type="xs:string"/>
-                <xs:element name="address" type="xs:string"/>
-            </xs:sequence>
+            <xs:attribute name="certificateNumber" type="xs:string"/>
+            <xs:attribute name="phoneNumber" type="xs:string"/>
+            <xs:attribute name="eMail" type="xs:string"/>
+            <xs:attribute name="address" type="xs:string"/>
         </xs:extension>
     </xs:complexContent>
 </xs:complexType>
@@ -182,7 +182,7 @@
             <xs:element name="anonimousClient" minOccurs="0" maxOccurs="1" type="anonymousClient"/>
         </xs:choice>
     </xs:sequence>
-    <xs:attribute name="flightId" type="xs:integer"/>
+    <xs:attribute name="position" type="xs:string"/>
 </xs:complexType>
 
 </xs:schema>
