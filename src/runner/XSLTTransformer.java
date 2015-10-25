@@ -19,8 +19,12 @@ import java.io.IOException;
 public class XSLTTransformer {
 
     private static final String XSL_PATH = "xslt-transformation/transformation.xsl";
-    private static final String XML_PATH = "xslt-transformation/data1.xml";
-    private static final String HTML_PATH = "xslt-transformation/resultHTML.html";
+
+    //private static final String XML_PATH = "xslt-transformation/data1.xml";
+    private static final String XML_PATH = "src/parsers/jaxb/marshal/result/result.xml";
+
+    //private static final String HTML_PATH = "xslt-transformation/resultHTML.html";
+    private static final String HTML_PATH = "src/parsers/jaxb/marshal/result/result.html";
     private static final String ERROR_FILE_PATH = "xslt-transformation/transformation_errors.txt";
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, TransformerException {
@@ -36,14 +40,5 @@ public class XSLTTransformer {
         } catch(TransformerException e) {
             e.printStackTrace();
         }
-//        TransformerFactory factory = TransformerFactory.newInstance();
-//        Transformer transformer = factory.newTransformer(new StreamSource(XSL_PATH));
-//        SAXSource saxInput = new SAXSource(new InputSource(XML_PATH));
-//        DOMResult domOutput = new DOMResult();
-//        transformer.transform(saxInput, domOutput);
-//        Document document = (Document) domOutput.getNode();
-//        DOMSource domInput = new DOMSource(document);
-//        StreamResult streamOutput = new StreamResult(new FileOutputStream(new File(HTML_PATH)));
-//        transformer.transform(domInput, streamOutput);
     }
 }

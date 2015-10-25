@@ -41,7 +41,7 @@
             <cipher>D353512GSDGGHFHFN34</cipher>
             <distance>3200</distance>
         </route>
-        <ticket>
+        <ticket position="right">
             <id>2</id>
             <row>5</row>
             <place>6</place>
@@ -57,16 +57,18 @@
             <id>3</id>
             <row>6</row>
             <place>5</place>
+            <status>З</status>
             <price>10000</price>
             <anonimousClient isSecured="YES">
                 <companyName>ФСБ</companyName>
                 <employeerId>4</employeerId>
             </anonimousClient>
         </ticket>
-        <ticket>
+        <ticket position="left">
             <id>1</id>
             <row>3</row>
             <place>4</place>
+            <status>З</status>
             <price>8800</price>
             <client pasportSeries="1408" pasportNumber="545423" phoneNumber="834364643636" eMail="petrov.grigory@mail.ru" address="г.Владимир ул.Диктора Левитана д.3 кв.4">
                 <id>1</id>
@@ -110,10 +112,11 @@
             <cipher>D353512GSDGGHFHFN34</cipher>
             <distance>1200</distance>
         </route>
-        <ticket>
+        <ticket position="left">
             <id>1</id>
             <row>3</row>
             <place>4</place>
+            <status>З</status>
             <price>7900</price>
             <client pasportSeries="1408" pasportNumber="553421" phoneNumber="89331435533" eMail="popov@gmail.ru" address="ул. Гороховая д.33 кв.54">
                 <id>1</id>
@@ -122,10 +125,11 @@
                 <patronymic>Иванович</patronymic>
             </client>
         </ticket>
-        <ticket>
+        <ticket position="right">
             <id>2</id>
             <row>5</row>
             <place>6</place>
+            <status>З</status>
             <price>10100</price>
             <client pasportSeries="1409" pasportNumber="214345" phoneNumber="89215334266" eMail="burunduk@gmail.ru" address="ул. Василисина д.14 кв.35">
                 <id>2</id>
@@ -134,10 +138,11 @@
                 <patronymic>Васильевич</patronymic>
             </client>
         </ticket>
-        <ticket>
+        <ticket position="center">
             <id>3</id>
             <row>8</row>
             <place>9</place>
+            <status>З</status>
             <price>9000</price>
             <anonimousClient isSecured="YES">
                 <companyName>FRB</companyName>
